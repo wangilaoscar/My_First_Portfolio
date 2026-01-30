@@ -1,0 +1,13 @@
+.tasks-page {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.tasks-container {
+    max-width: 800px;
+}
+
+@media (max-width: 768px) {
+    .tasks-container {
+        max-width: 100%;
+    }
+}

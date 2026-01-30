@@ -1,0 +1,124 @@
+.device-card {
+    position: relative;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+}
+
+.device-card.device-on {
+    border-color: rgba(102, 126, 234, 0.4);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(102, 126, 234, 0.2);
+}
+
+.device-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+}
+
+.device-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    background: var(--bg-glass);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all var(--transition-normal);
+}
+
+.device-icon.active {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-glow);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.device-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--bg-glass);
+}
+
+.status-online {
+    color: var(--color-success);
+}
+
+.status-offline {
+    color: var(--text-muted);
+}
+
+.device-info {
+    flex: 1;
+    margin-bottom: var(--spacing-md);
+}
+
+.device-name {
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.device-location {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.device-state {
+    min-height: 24px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.now-playing {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.pulse-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-success);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.battery-level {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.device-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--border-glass);
+}
+
+.btn-power {
+    flex: 1;
+    background: var(--bg-glass);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-glass);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-power.active {
+    background: var(--gradient-primary);
+    color: white;
+    border-color: transparent;
+}
+
+.btn-power:hover {
+    transform: translateY(-1px);
+}
