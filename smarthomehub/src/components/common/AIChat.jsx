@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Mic, MicOff } from 'lucide-react';
+import { Send, Mic, MicOff, Bot, User, Sparkles } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { startListening } from '../../services/VoiceService';
 import './AIChat.css';
@@ -47,12 +47,21 @@ const AIChat = () => {
     ];
 
     return (
-        <div className="ai-chat glass-card">
-            <div className="chat-messages">
+        <div className="ai-chat-container glass-card">
+            <div className="messages-container">
+                {aiMessages.length === 0 && (
+                    <div className="empty-chat">
+                        <Sparkles size={48} className="text-primary opacity-20 mb-md" />
+                        <p>How can I help you manage your home today?</p>
+                    </div>
+                )}
                 {aiMessages.map((msg) => (
-                    <div key={msg.id} className={`message ${msg.type}`}>
-                        <div className="message-content">
-                            {msg.text}
+                    <div key={msg.id} className={`message ${msg.type === 'user' ? 'user-message' : 'ai-message'}`}>
+                        <div className="message-avatar">
+                            {msg.type === 'user' ? <User size={18} /> : <Bot size={18} />}
+                        </div>
+                        <div className="message-bubble">
+                            <p>{msg.text}</p>
                         </div>
                     </div>
                 ))}
@@ -64,7 +73,7 @@ const AIChat = () => {
                     {quickCommands.map((cmd) => (
                         <button
                             key={cmd}
-                            className="btn btn-secondary btn-sm"
+                            className="quick-cmd-btn"
                             onClick={() => sendAIMessage(cmd)}
                         >
                             {cmd}
@@ -72,20 +81,23 @@ const AIChat = () => {
                     ))}
                 </div>
 
-                <form className="chat-input" onSubmit={handleSubmit}>
-                    <button
-                        type="button"
-                        className={`btn-icon mic-btn ${isListening ? 'listening' : 'btn-secondary'}`}
-                        onClick={handleListen}
-                    >
-                        {isListening ? <MicOff size={20} className="animate-pulse" /> : <Mic size={20} />}
-                    </button>
-                    <input
-                        type="text"
-                        placeholder="Ask me anything..."
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                    />
+                <form className="chat-input-form" onSubmit={handleSubmit}>
+                    <div className="input-wrapper">
+                        <input
+                            type="text"
+                            className="chat-input"
+                            placeholder="Type a command..."
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                        />
+                        <button
+                            type="button"
+                            className={`btn-icon mic-btn ${isListening ? 'listening' : ''}`}
+                            onClick={handleListen}
+                        >
+                            {isListening ? <MicOff size={18} className="animate-pulse" /> : <Mic size={18} />}
+                        </button>
+                    </div>
                     <button type="submit" className="btn-icon btn-primary send-btn" disabled={!input.trim()}>
                         <Send size={20} />
                     </button>

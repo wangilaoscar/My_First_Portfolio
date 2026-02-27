@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { speak } from '../services/VoiceService';
 import { db } from '../config/firebase';
 import { useAuth } from './AuthContext';
+import { getHuggingFaceResponse } from '../services/HuggingFaceService';
 import {
     collection,
     addDoc,
@@ -176,7 +177,7 @@ export const AppProvider = ({ children }) => {
     };
 
     // AI Assistant
-    const sendAIMessage = (message) => {
+    const sendAIMessage = async (message) => {
         const userMsg = {
             id: Date.now(),
             type: 'user',
@@ -184,9 +185,13 @@ export const AppProvider = ({ children }) => {
         };
         setAiMessages(prev => [...prev, userMsg]);
 
-        // Process command
-        setTimeout(() => {
-            const response = processAICommand(message);
+        try {
+            // Get intelligent response from Hugging Face
+            const response = await getHuggingFaceResponse(message, devices, tasks);
+
+            // Check if AI wants us to perform an action (Basic keyword routing for now)
+            processAICommandOffline(message); // Silent background processing for immediate state change if clear
+
             const aiMsg = {
                 id: Date.now() + 1,
                 type: 'ai',
@@ -194,10 +199,24 @@ export const AppProvider = ({ children }) => {
             };
             setAiMessages(prev => [...prev, aiMsg]);
             speak(response); // Voice Response
-        }, 500);
+        } catch (error) {
+            console.error("AI Error:", error);
+            const fallbackResponse = processAICommandOffline(message);
+            const aiMsg = {
+                id: Date.now() + 1,
+                type: 'ai',
+                text: fallbackResponse
+            };
+            setAiMessages(prev => [...prev, aiMsg]);
+            speak(fallbackResponse);
+        }
     };
 
-    const processAICommand = (command) => {
+    /**
+     * Local command processor for immediate feedback or offline mode.
+     * Does NOT add to message history, just performs the state change.
+     */
+    const processAICommandOffline = (command) => {
         const lower = command.toLowerCase();
 
         // Turn on/off devices

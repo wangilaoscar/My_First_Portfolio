@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyB2GY8xaNRyuhWiOGLnGA0sAO-TdPkr0TM",
-    authDomain: "smarthomeapp-51.firebaseapp.com",
-    projectId: "smarthomeapp-51",
-    storageBucket: "smarthomeapp-51.firebasestorage.app",
-    messagingSenderId: "1038491842493",
-    appId: "1:1038491842493:web:24e09443173af799fac4d4",
-    measurementId: "G-S02XL3YMPQ"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Simple check to see if placeholders are still present
